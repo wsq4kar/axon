@@ -1,0 +1,255 @@
+/* ═══════════════════════════════════════════════════════════════
+   MONO — токены дизайн-системы
+   Чёрно-белая система: иерархия держится на яркости, размере и
+   движении, а не на цвете. Тёмная тема — основная, светлая — зеркальная.
+   Все значения меняются только здесь; компоненты ссылаются на токены.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* ── Шкала серого. Шаги подобраны так, чтобы слои различались
+        на 2–4% яркости: глубина читается, но не кричит. ── */
+  --gray-0:   #000000;
+  --gray-50:  #050505;
+  --gray-100: #0a0a0a;
+  --gray-150: #0f0f0f;
+  --gray-200: #141414;
+  --gray-250: #1a1a1a;
+  --gray-300: #202020;
+  --gray-400: #2a2a2a;
+  --gray-500: #3a3a3a;
+  --gray-600: #5a5a5a;
+  --gray-700: #888888;
+  --gray-800: #a1a1a1;
+  --gray-900: #d4d4d4;
+  --gray-950: #fafafa;
+
+  /* ── Слои (снизу вверх) ── */
+  --bg:              var(--gray-100);  /* окно приложения */
+  --bg-sunken:       var(--gray-50);   /* ниже фона: область под сеткой, код */
+  --panel:           var(--gray-150);  /* боковая панель, поле ввода */
+  --surface:         var(--gray-200);  /* карточка */
+  --surface-hover:   var(--gray-250);
+  --surface-active:  var(--gray-300);
+  --surface-raised:  var(--gray-250);  /* меню, палитра команд, модальное окно */
+
+  /* ── Текст. Контраст на карточке #141414 (WCAG 2.1):
+        text 17.6:1 · text-2 7.1:1 · text-3 5.2:1 — всё ≥ AA.
+        text-4 — только плейсхолдер и выключенное, для чтения не годится. ── */
+  --text:    var(--gray-950);
+  --text-2:  var(--gray-800);
+  --text-3:  var(--gray-700);
+  --text-4:  var(--gray-600);
+
+  /* ── Границы: полупрозрачный белый, чтобы работали на любом слое ── */
+  --border:        rgba(255, 255, 255, .07);
+  --border-hover:  rgba(255, 255, 255, .13);
+  --border-strong: rgba(255, 255, 255, .18);
+  --border-focus:  rgba(255, 255, 255, .55);
+
+  /* ── Инверсия: главное действие — белое пятно на чёрном ── */
+  --inverse:       var(--gray-950);
+  --inverse-text:  var(--gray-100);
+  --inverse-hover: #ffffff;
+
+  /* ── Служебное ── */
+  --overlay:   rgba(0, 0, 0, .62);
+  --highlight: rgba(255, 255, 255, .06);   /* верхний блик у поверхностей */
+  --glow:      rgba(255, 255, 255, .09);   /* свечение вокруг живых элементов */
+  --grid-line: rgba(255, 255, 255, .028);  /* фоновая сетка */
+  --selection: rgba(255, 255, 255, .18);
+  --scrim-top: linear-gradient(180deg, var(--bg) 0%, transparent 100%);
+
+  /* ── Статус без цвета: отличаем формой и движением ──
+        live   — белая точка с пульсом
+        idle   — серая точка
+        error  — белая точка в кольце + иконка
+        Если продукту нужен цветной «онлайн», меняется одна строка: */
+  --signal: var(--gray-950);
+
+  /* ── Тени: на тёмном фоне глубину дают граница и блик, тень только
+        отделяет плавающие слои ── */
+  --shadow-1: inset 0 1px 0 var(--highlight);
+  --shadow-2: 0 8px 24px -8px rgba(0, 0, 0, .7), 0 0 0 1px var(--border), inset 0 1px 0 var(--highlight);
+  --shadow-3: 0 24px 64px -16px rgba(0, 0, 0, .85), 0 0 0 1px var(--border-hover), inset 0 1px 0 var(--highlight);
+  --shadow-glow: 0 0 0 1px var(--border-hover), 0 0 32px var(--glow);
+  --ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--border-focus);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg:              #fafafa;
+  --bg-sunken:       #f2f2f2;
+  --panel:           #f5f5f5;
+  --surface:         #ffffff;
+  --surface-hover:   #f4f4f4;
+  --surface-active:  #ececec;
+  --surface-raised:  #ffffff;
+  /* на #fafafa: text 19:1 · text-2 7.5:1 · text-3 4.9:1 */
+  --text:   #0a0a0a;
+  --text-2: #525252;
+  --text-3: #6e6e6e;
+  --text-4: #a3a3a3;
+  --border:        rgba(0, 0, 0, .08);
+  --border-hover:  rgba(0, 0, 0, .15);
+  --border-strong: rgba(0, 0, 0, .22);
+  --border-focus:  rgba(0, 0, 0, .6);
+  --inverse:       #0a0a0a;
+  --inverse-text:  #fafafa;
+  --inverse-hover: #000000;
+  --overlay:   rgba(250, 250, 250, .7);
+  --highlight: rgba(255, 255, 255, .8);
+  --glow:      rgba(0, 0, 0, .06);
+  --grid-line: rgba(0, 0, 0, .035);
+  --selection: rgba(0, 0, 0, .12);
+  --signal: #0a0a0a;
+  --shadow-2: 0 8px 24px -10px rgba(0, 0, 0, .18), 0 0 0 1px var(--border);
+  --shadow-3: 0 24px 64px -20px rgba(0, 0, 0, .25), 0 0 0 1px var(--border-hover);
+}
+
+:root {
+  /* ═══ Типографика ═══
+     Geist — интерфейс и заголовки, Geist Mono — клавиши, код, метки, значения.
+     Обе с кириллицей; файлы шрифтов лежат в пакете (mono-ui/fonts). Запасной — системный.
+     Заголовки полужирные (600), не жирные: в монохроме вес 700–800 выглядит грубо. */
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --text-2xs: 10px;   /* подписи в навигационной рейке */
+  --text-xs:  11px;   /* клавиши, бейджи, метки */
+  --text-sm:  12px;   /* описания в карточках, подсказки */
+  --text-md:  13px;   /* основной текст интерфейса */
+  --text-base:14px;   /* текст сообщений, поля ввода */
+  --text-lg:  16px;
+  --text-xl:  20px;
+  --text-2xl: 24px;
+  --text-3xl: 32px;   /* заголовок пустого экрана */
+  --text-4xl: 44px;
+  --text-5xl: 60px;   /* лендинги */
+
+  --leading-tight: 1.15;
+  --leading-snug:  1.3;
+  --leading-normal:1.5;
+  --leading-loose: 1.65;
+
+  --tracking-display: -0.035em;  /* ≥ 32px */
+  --tracking-heading: -0.02em;   /* 20–28px */
+  --tracking-body:    -0.006em;
+  --tracking-caps:     0.08em;   /* МЕТКИ ПРОПИСНЫМИ, моно */
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold:600;
+
+  /* ═══ Отступы: шаг 4px ═══ */
+  --space-0-5: 2px;
+  --space-1:   4px;
+  --space-1-5: 6px;
+  --space-2:   8px;
+  --space-2-5: 10px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ═══ Скругления ═══ */
+  --radius-xs:  5px;    /* клавиши */
+  --radius-sm:  8px;    /* маленькие кнопки, плитки иконок */
+  --radius-md: 10px;    /* кнопки, пункты меню */
+  --radius-lg: 12px;    /* карточки */
+  --radius-xl: 16px;    /* поле ввода, панели */
+  --radius-2xl:20px;    /* модальные окна */
+  --radius-full: 999px;
+
+  /* ═══ Размеры ═══ */
+  --control-sm: 28px;
+  --control-md: 36px;
+  --control-lg: 44px;   /* минимум для касания */
+  --rail-width: 64px;
+  --sidebar-width: 256px;
+  --titlebar-height: 36px;
+  --content-max: 720px; /* колонка чата */
+
+  /* ═══ ДВИЖЕНИЕ ═══
+     Правила — в README, раздел «Движение». Коротко:
+     отклик мгновенный, появление мягче исчезновения, анимируем только
+     transform/opacity/filter, всё прерывается, постоянная анимация —
+     максимум одна на экран. */
+
+  /* Длительности */
+  --dur-instant: 80ms;    /* нажатие, смена цвета */
+  --dur-fast:   140ms;    /* наведение, исчезновение, мелкие переключатели */
+  --dur-base:   220ms;    /* появление меню, подсказок, смена вкладок */
+  --dur-slow:   320ms;    /* модальные окна, шторки, смена экранов */
+  --dur-slower: 480ms;    /* появление пустого экрана, первого экрана */
+  --dur-ambient: 8s;      /* фоновые петли: логотип, пульс */
+
+  /* Кривые */
+  --ease-out:      cubic-bezier(.16, 1, .3, 1);    /* главная кривая входа: быстрый старт, долгое мягкое торможение */
+  --ease-in:       cubic-bezier(.7, 0, .84, 0);    /* уход: разгоняется и исчезает */
+  --ease-in-out:   cubic-bezier(.65, 0, .35, 1);   /* перемещение по экрану, раскрытие */
+  --ease-standard: cubic-bezier(.2, 0, 0, 1);      /* наведение и цвета */
+
+  /* Пружины (посчитаны симуляцией, совпадают с motion.ts):
+     spring        — жёсткость 380, затухание 30: перелёт 2%, ≈470 мс. Меню, модальные окна, индикатор вкладок.
+     spring-bouncy — жёсткость 300, затухание 22: перелёт 7%, ≈650 мс. Переключатели, значки «готово», тосты.
+     spring-soft   — жёсткость 170, затухание 26: без перелёта, ≈730 мс. Крупные панели, смена раскладки. */
+  --spring:        cubic-bezier(.34, 1.2, .64, 1);
+  --spring-bouncy: cubic-bezier(.34, 1.45, .64, 1);
+  --spring-soft:   cubic-bezier(.22, 1, .36, 1);
+  --dur-spring:        470ms;
+  --dur-spring-bouncy: 650ms;
+  --dur-spring-soft:   730ms;
+
+  /* Каскад: задержка на элемент и её потолок (после 8-го — без задержки) */
+  --stagger: 40ms;
+  --stagger-max: 320ms;
+
+  /* Расстояния движения — небольшие: элемент «проявляется», а не летит */
+  --shift-sm: 4px;
+  --shift-md: 8px;
+  --shift-lg: 16px;
+  --blur-enter: 6px;
+  --scale-press: .97;
+  --scale-pop: .96;
+
+  /* ═══ Слои по оси Z ═══ */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-dropdown: 40;
+  --z-overlay: 50;
+  --z-modal: 60;
+  --z-palette: 70;
+  --z-toast: 80;
+  --z-tooltip: 90;
+}
+
+/* Точные пружины там, где браузер умеет linear() (Chrome 113+, Safari 17.2+, Firefox 112+) */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring:        linear(0, 0.026, 0.09, 0.168, 0.266, 0.367, 0.467, 0.561, 0.64, 0.716, 0.782, 0.839, 0.885, 0.92, 0.95, 0.973, 0.991, 1.003, 1.011, 1.017, 1.02, 1.021, 1.021, 1.02, 1.018, 1.016, 1.014, 1.012, 1.01, 1.008, 1.007, 1.005, 1.004, 1.003, 1.002, 1.001, 1.001, 1, 1, 1, 1);
+    --spring-bouncy: linear(0, 0.036, 0.131, 0.251, 0.384, 0.525, 0.648, 0.758, 0.855, 0.929, 0.985, 1.027, 1.053, 1.067, 1.073, 1.072, 1.067, 1.058, 1.049, 1.039, 1.029, 1.02, 1.013, 1.007, 1.002, 0.999, 0.997, 0.995, 0.995, 0.995, 0.995, 0.995, 0.996, 0.997, 0.998, 0.998, 0.999, 0.999, 1, 1, 1);
+    --spring-soft:   linear(0, 0.025, 0.084, 0.161, 0.251, 0.337, 0.42, 0.497, 0.568, 0.631, 0.686, 0.735, 0.779, 0.814, 0.845, 0.87, 0.892, 0.911, 0.926, 0.939, 0.95, 0.959, 0.966, 0.972, 0.977, 0.981, 0.985, 0.987, 0.99, 0.992, 0.993, 0.994, 0.996, 0.996, 0.997, 0.998, 0.998, 0.998, 0.999, 0.999, 1);
+  }
+}
+
+/* Человек попросил меньше движения: оставляем только прозрачность,
+   длительности сокращаем, фоновые петли выключаются в motion.css */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --shift-sm: 0px; --shift-md: 0px; --shift-lg: 0px;
+    --blur-enter: 0px;
+    --scale-press: 1; --scale-pop: 1;
+    --stagger: 0ms; --stagger-max: 0ms;
+    --dur-slow: 160ms; --dur-slower: 200ms;
+    --spring: var(--ease-standard); --spring-bouncy: var(--ease-standard); --spring-soft: var(--ease-standard);
+    --dur-spring: 160ms; --dur-spring-bouncy: 160ms; --dur-spring-soft: 160ms;
+  }
+}

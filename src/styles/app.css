@@ -1,0 +1,19 @@
+@import './fonts.css';
+@import './tokens.css';
+@import './motion.css';
+@import './components.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body { overflow: hidden; user-select: none; }
+input, textarea, .selectable { user-select: text; }
+/* Tailwind preflight обнуляет кнопки — возвращаем курсор */
+button { cursor: pointer; }
+.drag { -webkit-app-region: drag; }
+.no-drag { -webkit-app-region: no-drag; }
+.scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar::-webkit-scrollbar-thumb { background: var(--gray-400); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+.scrollbar::-webkit-scrollbar-track { background: transparent; }
+.num { font-variant-numeric: tabular-nums; }

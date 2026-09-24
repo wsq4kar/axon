@@ -1,0 +1,26 @@
+[package]
+name = "axon"
+version = "0.1.0"
+description = "Axon — open-source VPN client (Xray + sing-box)"
+edition = "2021"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/wsq4kar/axon"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+ureq = "2"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
