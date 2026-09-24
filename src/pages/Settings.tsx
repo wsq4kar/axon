@@ -26,7 +26,7 @@ const GROUPS: { title: string; items: Def[] }[] = [
     { k: 'ipv6', label: 'IPv6', hint: 'Выключено — меньше риск утечек', type: 'toggle' },
   ] },
   { title: 'Если не подключается', items: [
-    { k: 'tlsFragment', label: 'Фрагментация TLS', hint: 'Режет первое сообщение на части — помогает против части блокировок', type: 'toggle' },
+    { k: 'tlsFragment', label: 'Фрагментация TLS', hint: 'Делит первое сообщение TLS на части — помогает, если соединение обрывается на рукопожатии', type: 'toggle' },
     { k: 'mux', label: 'Мультиплексирование', hint: 'Несколько соединений в одном — меньше рукопожатий', type: 'toggle' },
   ] },
   { title: 'TUN', items: [
